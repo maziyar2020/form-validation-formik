@@ -3,22 +3,26 @@ import { useFormik } from 'formik'
 
 
 const SingUpForm = () => {
-    const formik = useFormik({
-        initialValues: {
-            name: '',
-            email: '',
-            password: ''
-        }
-    })
-    console.log(formik.values);
-    const submitHandler = (e) => {
-        e.preventDefault()
 
+    const initialValues = {
+        name: '',
+        email: '',
+        password: ''
     }
+
+    const onSubmit = (values) => console.log(values)
+
+
+    const formik = useFormik({
+        initialValues,
+        onSubmit,
+    })
+
+
 
     return (
         <div>
-            <form className="bg-gray-100 p-8 rounded-xl" onSubmit={submitHandler}>
+            <form className="bg-gray-100 p-8 rounded-xl" onSubmit={formik.handleSubmit}>
                 <div className="form-control">
                     <label htmlFor="name">name</label>
                     <input
