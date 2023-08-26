@@ -5,6 +5,7 @@ import BaseInput from './common/BaseInput';
 import { useEffect, useState } from 'react';
 import * as Yup from 'yup'
 import BaseRadio from './common/BaseRadio';
+import BaseSelect from './common/BaseSelect';
 
 
 const SingUpForm = () => {
@@ -13,7 +14,14 @@ const SingUpForm = () => {
 
     const radioOptions = [
         { label: 'Male', value: '0' },
-        { label: "Female", value: '1' },
+        { label: 'Female', value: '1' }
+    ]
+
+    const selectOptions = [
+        { label: 'Select Nationality', value: '' },
+        { label: "Iran", value: 'IR' },
+        { label: "Germany", value: 'Gr' },
+        { label: "Italy", value: 'IT' },
     ]
 
     const initialValues = {
@@ -22,7 +30,8 @@ const SingUpForm = () => {
         phoneNumber: '',
         password: '',
         passwordConfirm: '',
-        gender: ''
+        gender: '',
+        nationality: ''
     }
 
     const onSubmit = (values) => console.log(values)
@@ -43,7 +52,8 @@ const SingUpForm = () => {
         passwordConfirm: Yup.string().required('این فیلد الزامی است').oneOf(
             [Yup.ref('password'), null], "پسورد مطابقت ندارد"
         ),
-        gender: Yup.string().required('این فیلد الزامیست')
+        gender: Yup.string().required('این فیلد الزامیست'),
+        nationality: Yup.string().required('این فیلد الزامیست')
     })
 
 
@@ -69,20 +79,50 @@ const SingUpForm = () => {
     return (
         <div>
             <form className="bg-gray-100 p-8 rounded-xl" onSubmit={formik.handleSubmit}>
-                {/* name field */}
-                <BaseInput formik={formik} name="name" label="Name" />
-                {/* email field */}
-                <BaseInput formik={formik} name="email" label="Email" />
-                {/* phone number field */}
-                <BaseInput formik={formik} name="phoneNumber" label="Phone Number" />
-                {/* password field */}
-                <BaseInput formik={formik} name="password" label="Password" type="password" />
-                {/* password Confirm */}
-                <BaseInput formik={formik} name="passwordConfirm" label="Confirm Password" type="password" />
+
+                <BaseInput
+                    formik={formik}
+                    name="name"
+                    label="Name" />
+
+                <BaseInput
+                    formik={formik}
+                    name="email"
+                    label="Email" />
+
+                <BaseInput
+                    formik={formik}
+                    name="phoneNumber"
+                    label="Phone Number" />
+
+                <BaseInput
+                    formik={formik}
+                    name="password"
+                    label="Password"
+                    type="password" />
+
+                <BaseInput
+                    formik={formik}
+                    name="passwordConfirm"
+                    label="Confirm Password"
+                    type="password" />
+
                 <p className="font-extrabold mb-5">Gender</p>
+
                 <div className="form-control grid grid-cols-2 gap-x-4">
-                    <BaseRadio radioOptions={radioOptions} formik={formik} name="gender" />
+                    <BaseRadio
+                        radioOptions={radioOptions}
+                        name="gender"
+                        formik={formik}
+                    />
                 </div>
+
+                <BaseSelect
+                    selectOptions={selectOptions}
+                    name="nationality"
+                    formik={formik}
+                />
+
                 <button
                     className="bg-violet-500 rounded-md text-white"
                     type='submit'
