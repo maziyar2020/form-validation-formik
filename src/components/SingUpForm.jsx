@@ -1,20 +1,16 @@
 'use client';
-import { useState } from 'react'
 import { useFormik } from 'formik'
 
 
 const SingUpForm = () => {
-
-    const [userData, SetUserData] = useState({
-        name: '',
-        email: '',
-        password: ''
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            password: ''
+        }
     })
-
-    const changeHandler = ({ target }) => {
-        SetUserData({ ...userData, [target.name]: target.value })
-    }
-
+    console.log(formik.values);
     const submitHandler = (e) => {
         e.preventDefault()
 
@@ -29,8 +25,8 @@ const SingUpForm = () => {
                         type="text"
                         id='name'
                         name="name"
-                        value={userData.name}
-                        onChange={changeHandler}
+                        value={formik.values.name}
+                        onChange={formik.handleChange}
                     />
                 </div>
                 <div className="form-control">
@@ -39,8 +35,8 @@ const SingUpForm = () => {
                         type="text"
                         id='email'
                         name="email"
-                        value={userData.email}
-                        onChange={changeHandler}
+                        value={formik.values.email}
+                        onChange={formik.handleChange}
                     />
                 </div>
                 <div className="form-control">
@@ -49,8 +45,8 @@ const SingUpForm = () => {
                         type="text"
                         id='password'
                         name="password"
-                        value={userData.password}
-                        onChange={changeHandler}
+                        value={formik.values.password}
+                        onChange={formik.handleChange}
                     />
                 </div>
                 <button
