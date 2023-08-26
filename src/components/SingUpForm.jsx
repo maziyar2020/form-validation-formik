@@ -1,9 +1,21 @@
 'use client';
 import { useFormik } from 'formik'
+import { useState } from 'react';
 import * as Yup from 'yup'
 
 
 const SingUpForm = () => {
+
+    const [formValues, setFormValues] = useState(null)
+
+    const savedData = {
+        name: 'maziyar',
+        email: 'ma@gmail.com',
+        phoneNumber: '09161230000',
+        password: '12345678',
+        passwordConfirm: '12345678',
+        gender: '0'
+    }
 
     const initialValues = {
         name: '',
@@ -37,7 +49,8 @@ const SingUpForm = () => {
 
 
     const formik = useFormik({
-        initialValues,
+        enableReinitialize: true,
+        initialValues: formValues || initialValues,
         onSubmit,
         validationSchema,
         validateOnMount: true
@@ -162,6 +175,11 @@ const SingUpForm = () => {
                     type='submit'
                     disabled={!formik.isValid}
                 >Submit
+                    </button>
+                <button
+                    className="bg-violet-200 rounded-md text-white"
+                    onClick={() => setFormValues(savedData)}
+                >load
                     </button>
             </form>
         </div >
