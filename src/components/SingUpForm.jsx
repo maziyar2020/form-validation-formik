@@ -1,21 +1,20 @@
 'use client';
+import axios from 'axios';
 import { useFormik } from 'formik'
-import { useState } from 'react';
+import BaseInput from './common/BaseInput';
+import { useEffect, useState } from 'react';
 import * as Yup from 'yup'
+import BaseRadio from './common/BaseRadio';
 
 
 const SingUpForm = () => {
 
     const [formValues, setFormValues] = useState(null)
 
-    const savedData = {
-        name: 'maziyar',
-        email: 'ma@gmail.com',
-        phoneNumber: '09161230000',
-        password: '12345678',
-        passwordConfirm: '12345678',
-        gender: '0'
-    }
+    const radioOptions = [
+        { label: 'Male', value: '0' },
+        { label: "Female", value: '1' },
+    ]
 
     const initialValues = {
         name: '',
@@ -57,129 +56,38 @@ const SingUpForm = () => {
     })
 
 
+    useEffect(() => {
+        axios.get('http://localhost:4000/users/1').then(res => setFormValues(res.data))
+            .catch(err => console.log(err))
+
+        return () => {
+        }
+    }, [])
+
+
 
     return (
         <div>
             <form className="bg-gray-100 p-8 rounded-xl" onSubmit={formik.handleSubmit}>
                 {/* name field */}
-                <div className="form-control">
-                    <label htmlFor="name">name</label>
-                    <input
-                        type="text"
-                        id='name'
-                        name="name"
-                        {...formik.getFieldProps('name')}
-                    />
-                    {
-                        formik.errors.name && formik.touched.name &&
-                        <div className="text-red-500">
-                            {formik.errors.name}
-                        </div>
-                    }
-                </div>
+                <BaseInput formik={formik} name="name" label="Name" />
                 {/* email field */}
-                <div className="form-control">
-                    <label htmlFor="email">email</label>
-                    <input
-                        type="text"
-                        id='email'
-                        name="email"
-                        {...formik.getFieldProps('email')}
-                    />
-                    {
-                        formik.errors.email && formik.touched.email &&
-                        <div className="text-red-500">
-                            {formik.errors.email}
-                        </div>
-                    }
-                </div>
+                <BaseInput formik={formik} name="email" label="Email" />
                 {/* phone number field */}
-                <div className="form-control">
-                    <label htmlFor="phoneNumber">phone Number</label>
-                    <input
-                        type="text"
-                        id='phoneNumber'
-                        name="phoneNumber"
-                        {...formik.getFieldProps('phoneNumber')}
-                    />
-                    {
-                        formik.errors.phoneNumber && formik.touched.phoneNumber &&
-                        <div className="text-red-500">
-                            {formik.errors.phoneNumber}
-                        </div>
-                    }
-                </div>
+                <BaseInput formik={formik} name="phoneNumber" label="Phone Number" />
                 {/* password field */}
-                <div className="form-control">
-                    <label htmlFor="password">password</label>
-                    <input
-                        type="text"
-                        id='password'
-                        name="password"
-                        {...formik.getFieldProps('password')}
-                    />
-                    {
-                        formik.errors.password && formik.touched.password &&
-                        <div className="text-red-500">
-                            {formik.errors.password}
-                        </div>
-                    }
-                </div>
+                <BaseInput formik={formik} name="password" label="Password" type="password" />
                 {/* password Confirm */}
-                <div className="form-control">
-                    <label htmlFor="password">password Confirm</label>
-                    <input
-                        type="text"
-                        id='passwordConfirm'
-                        name="passwordConfirm"
-                        {...formik.getFieldProps('passwordConfirm')}
-                    />
-                    {
-                        formik.errors.passwordConfirm && formik.touched.passwordConfirm &&
-                        <div className="text-red-500">
-                            {formik.errors.passwordConfirm}
-                        </div>
-                    }
-                </div>
-                <p className="font-extrabold mb-5">gender</p>
+                <BaseInput formik={formik} name="passwordConfirm" label="Confirm Password" type="password" />
+                <p className="font-extrabold mb-5">Gender</p>
                 <div className="form-control grid grid-cols-2 gap-x-4">
-                    <div className=" flex items-center">
-                        <input
-                            type="radio"
-                            id="0"
-                            name="gender"
-                            value="0"
-                            onChange={formik.handleChange}
-                            checked={formik.values.gender === '0'}
-                        />
-                        <label htmlFor="0" className="ml-3">Female</label>
-                    </div>
-                    <div className=" flex items-center" >
-                        <input
-                            type="radio"
-                            id="1"
-                            name="gender"
-                            value="1"
-                            onChange={formik.handleChange}
-                            checked={formik.values.gender === '1'}
-                        />
-                        <label htmlFor="1" className="ml-3">Male</label>
-                    </div>
-                    {
-                        formik.errors.gender &&
-                        <div className="text-red-500">{formik.errors.gender}</div>
-                    }
+                    <BaseRadio radioOptions={radioOptions} formik={formik} name="gender" />
                 </div>
                 <button
                     className="bg-violet-500 rounded-md text-white"
                     type='submit'
                     disabled={!formik.isValid}
                 >Submit
-                    </button>
-                <button
-                    className="bg-violet-200 rounded-md text-white"
-                    onClick={() => setFormValues(savedData)}
-                >load
                     </button>
             </form>
         </div >
