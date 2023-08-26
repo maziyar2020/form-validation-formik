@@ -10,7 +10,8 @@ const SingUpForm = () => {
         email: '',
         phoneNumber: '',
         password: '',
-        passwordConfirm: ''
+        passwordConfirm: '',
+        gender: ''
     }
 
     const onSubmit = (values) => console.log(values)
@@ -30,7 +31,8 @@ const SingUpForm = () => {
         password: Yup.string().required('این فیلد الزامیست'),
         passwordConfirm: Yup.string().required('این فیلد الزامی است').oneOf(
             [Yup.ref('password'), null], "پسورد مطابقت ندارد"
-        )
+        ),
+        gender: Yup.string().required('این فیلد الزامیست')
     })
 
 
@@ -124,6 +126,35 @@ const SingUpForm = () => {
                         <div className="text-red-500">
                             {formik.errors.passwordConfirm}
                         </div>
+                    }
+                </div>
+                <p className="font-extrabold mb-5">gender</p>
+                <div className="form-control grid grid-cols-2 gap-x-4">
+                    <div className=" flex items-center">
+                        <input
+                            type="radio"
+                            id="0"
+                            name="gender"
+                            value="0"
+                            onChange={formik.handleChange}
+                            checked={formik.values.gender === '0'}
+                        />
+                        <label htmlFor="0" className="ml-3">Female</label>
+                    </div>
+                    <div className=" flex items-center" >
+                        <input
+                            type="radio"
+                            id="1"
+                            name="gender"
+                            value="1"
+                            onChange={formik.handleChange}
+                            checked={formik.values.gender === '1'}
+                        />
+                        <label htmlFor="1" className="ml-3">Male</label>
+                    </div>
+                    {
+                        formik.errors.gender &&
+                        <div className="text-red-500">{formik.errors.gender}</div>
                     }
                 </div>
                 <button
