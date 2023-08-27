@@ -1,14 +1,18 @@
 {
-    "users": [
-        {
-            "id": 1,
-            "name": "maziyar",
-            "email": "ma@gmail.com",
-            "phoneNumber": "09161230000",
-            "password": "12345678",
-            "passwordConfirm": "12345678",
-            "gender": "0",
-            "nationality": "Gr"
-        }
-    ]
+  "users": [
+    {
+      "name": "maziyar",
+      "email": "maziroadtodivine@gmail.com",
+      "phoneNumber": "09161230000",
+      "password": "123",
+      "passwordConfirm": "123",
+      "gender": "0",
+      "nationality": "IR",
+      "interest": [
+        "react.js"
+      ],
+      "terms": true,
+      "id": 1
+    }
+  ]
 }

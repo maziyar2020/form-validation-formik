@@ -34,6 +34,11 @@ input{
   border-radius: 5px;
 }
 
+select{
+  width:400px;
+  padding: 5px 10px;
+}
+
 input[type="radio"]{
   width: auto;
 }

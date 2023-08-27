@@ -1,16 +1,24 @@
 'use client';
 import axios from 'axios';
-import { useFormik } from 'formik'
-import BaseInput from './common/BaseInput';
 import { useEffect, useState } from 'react';
+// formik
+import { useFormik } from 'formik'
 import * as Yup from 'yup'
+// components
+import BaseInput from './common/BaseInput';
 import BaseRadio from './common/BaseRadio';
 import BaseSelect from './common/BaseSelect';
+import BaseCheckBox from './common/BaseCheckBox';
 
 
 const SingUpForm = () => {
 
     const [formValues, setFormValues] = useState(null)
+
+    const checkboxOptions = [
+        { label: 'react', value: 'react.js' },
+        { label: 'Vue', value: 'Vue.js' },
+    ]
 
     const radioOptions = [
         { label: 'Male', value: '0' },
@@ -31,10 +39,14 @@ const SingUpForm = () => {
         password: '',
         passwordConfirm: '',
         gender: '',
-        nationality: ''
+        nationality: '',
+        interest: [],
+        terms: false
     }
 
-    const onSubmit = (values) => console.log(values)
+    const onSubmit = (values) => {
+        axios.post('http://localhost:4000/users', values).then(res => console.log(res.data)).catch(err => console.log(err))
+    }
 
     const validationSchema = Yup.object({
         // schema for name
@@ -53,7 +65,9 @@ const SingUpForm = () => {
             [Yup.ref('password'), null], "پسورد مطابقت ندارد"
         ),
         gender: Yup.string().required('این فیلد الزامیست'),
-        nationality: Yup.string().required('این فیلد الزامیست')
+        nationality: Yup.string().required('این فیلد الزامیست'),
+        interest: Yup.array().min(1, 'حداقل یک گزینه را انتخاب کنید').required('این فیلد الزامیست'),
+        terms: Yup.boolean().required('این فیلد باید پر شود').oneOf([true], 'باید قوانین را بپذیرید')
     })
 
 
@@ -73,6 +87,9 @@ const SingUpForm = () => {
         return () => {
         }
     }, [])
+
+
+    console.log(formik.values);
 
 
 
@@ -122,6 +139,34 @@ const SingUpForm = () => {
                     name="nationality"
                     formik={formik}
                 />
+
+                <BaseCheckBox
+                    checkboxOptions={checkboxOptions}
+                    name="interest"
+                    formik={formik}
+                />
+
+                {/* terms */}
+                <div className="form-control">
+                    <div className="flex items-center">
+                        <input
+                            type="checkbox"
+                            id='terms'
+                            name='terms'
+                            value={true}
+                            onChange={formik.handleChange}
+                            checked={formik.values.terms}
+                            className="w-auto"
+                        />
+                        <label htmlFor='terms' className="ml-3">Terms</label>
+                    </div>
+                    {
+                        formik.errors.terms && formik.touched.terms &&
+                        <div className="text-red-500">
+                            {formik.errors.terms}
+                        </div>
+                    }
+                </div>
 
                 <button
                     className="bg-violet-500 rounded-md text-white"

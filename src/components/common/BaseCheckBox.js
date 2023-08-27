@@ -1,18 +1,19 @@
 import React from 'react'
 
-const BaseRadio = ({ name, formik, radioOptions }) => {
+const BaseCheckBox = ({ name, formik, checkboxOptions }) => {
     return (
-        <>
-            {radioOptions.map(item => {
+        <div className="form-control grid grid-cols-2">
+            {checkboxOptions.map(item => {
                 return <div key={item.value}>
                     <div className="flex items-center" key={item.value}>
                         <input
-                            type="radio"
+                            type="checkbox"
                             id={item.value}
                             name={name}
                             value={item.value}
                             onChange={formik.handleChange}
-                            checked={formik.values[name] === item.value}
+                            checked={formik.values[name].includes(item.value)}
+                            className="w-auto"
                         />
                         <label htmlFor={item.value} className="ml-3">{item.label}</label>
                     </div>
@@ -24,8 +25,8 @@ const BaseRadio = ({ name, formik, radioOptions }) => {
                     }
                 </div>
             })}
-        </>
+        </div>
     )
 }
 
-export default BaseRadio
+export default BaseCheckBox
